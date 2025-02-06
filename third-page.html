@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Batch Layout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #f0f4f7, #d9e7f5);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 600px;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .vertical-carousel {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .batch-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .batch-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .batch-card-content {
+      padding: 10px 0;
+    }
+
+    .batch-card-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .batch-card button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .join-btn {
+      background: #3498db;
+      color: #fff;
+    }
+
+    .explore-btn {
+      background: #f39c12;
+      color: #fff;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+  </style>
+
+  <script>
+    // Function to handle the "Buy Now" button click, showing the success message and redirecting
+    function buyNow(batchName) {
+      const price = 999;
+      alert(`Payment of ₹${price} successful!`);
+      
+      // Redirect to the video classes page after the alert
+      window.location.href = "video-classes.html"; // Change to the actual video classes page URL
+    }
+
+    // Function to explore batch
+    function exploreBatch(batchName) {
+      window.location.href = `explore.html?batch=${encodeURIComponent(batchName)}`;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Select your batche</h1>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for batches..." onkeyup="searchBatches()" />
+    </div>
+    <div id="results"></div>
+
+    </div>
+    <div class="vertical-carousel">
+      <div class="batch-card">
+        <img src="https://i.imgur.com/CRaTUbS.jpeg  " alt="NEET Batch">
+        <div class="batch-card-content">
+          <h3>NEET 11TH CLASS</h3>
+          <p>Comprehensive course for NEET students.</p>
+          <div class="price">₹999</div> <!-- Price for the batch -->
+        </div>
+        <div class="batch-card-buttons">
+          <button class="join-btn" onclick="buyNow('NEET 11TH CLASS')">Buy Now</button>
+          <button class="explore-btn" onclick="exploreBatch('NEET 11TH CLASS')">Explore Batch</button>
+        </div>
+      </div>
+
+      <div class="batch-card">
+        <img src="https://i.imgur.com/7h3AbWp.jpeg" alt="JEE Batch">
+        <div class="batch-card-content">
+          <h3>NEET 12TH CLASS</h3>
+          <p>Comprehensive course for NEET students</p>
+          <div class="price">₹999</div> <!-- Price for the batch -->
+        </div>
+        <div class="batch-card-buttons">
+          <button class="join-btn" onclick="buyNow('NEET 12TH CLASS')">Buy Now</button>
+          <button class="explore-btn" onclick="exploreBatch('NEET 12TH CLASS')">Explore Batch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <script>
+    function searchBatches() {
+        let query = document.getElementById("searchInput").value;
+
+        fetch(`/search?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                let resultsDiv = document.getElementById("results");
+                resultsDiv.innerHTML = data.map(batch => `<p>${batch}</p>`).join('');
+            })
+            .catch(error => console.error("Error:", error));
+    }
+    </script>
+    <script>
+function searchBatches() {
+    let query = document.getElementById("searchInput").value.toLowerCase();
+    let batchCards = document.getElementsByClassName("batch-card");
+
+    for (let card of batchCards) {
+        let batchName = card.getElementsByTagName("h3")[0].innerText.toLowerCase();
+        card.style.display = batchName.includes(query) ? "block" : "none";
+    }
+}
+</script>
+</body>
+</html>
