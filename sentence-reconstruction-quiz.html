@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #d7f3f9, #ffffff);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .speaker {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #d7f3f9;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .option img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+
+        .option:hover {
+            background: #5fa8d3;
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        .nav-buttons button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 5px;
+        }
+
+        .nav-buttons button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Speaker Icon for Reading Question -->
+        <div class="speaker" onclick="speakQuestion()">🔊</div>
+
+        <div class="question" id="quiz-question"></div>
+        <div class="options" id="options-container"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="nav-buttons">
+            <button id="prevButton" onclick="navigateQuestion(-1)">Back</button>
+            <button id="nextButton" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // Questions Data with Images
+        const questions = [
+            { question: "What is the capital of France?", options: ["Paris", "Berlin", "Rome", "Madrid"], answer: "Paris", images: ["paris.png", "berlin.png", "rome.png", "madrid.png"] },
+            { question: "Which animal is known as the king of the jungle?", options: ["Lion", "Elephant", "Tiger", "Bear"], answer: "Lion", images: ["lion.png", "elephant.png", "tiger.png", "bear.png"] },
+            { question: "Which fruit is known as the 'king of fruits'?", options: ["Mango", "Apple", "Banana", "Grapes"], answer: "Mango", images: ["mango.png", "apple.png", "banana.png", "grapes.png"] },
+            { question: "Which color is the sky on a clear day?", options: ["Blue", "Green", "Red", "Yellow"], answer: "Blue", images: ["blue.png", "green.png", "red.png", "yellow.png"] },
+            { question: "What is the tallest mountain in the world?", options: ["Everest", "K2", "Kilimanjaro", "Denali"], answer: "Everest", images: ["everest.png", "k2.png", "kilimanjaro.png", "denali.png"] },
+            { question: "What is the fastest land animal?", options: ["Cheetah", "Horse", "Tiger", "Leopard"], answer: "Cheetah", images: ["cheetah.png", "horse.png", "tiger.png", "leopard.png"] }
+        ];
+
+        let currentIndex = 0;
+
+        // Display Quiz Question
+        function displayQuestion() {
+            const question = questions[currentIndex];
+            document.getElementById('quiz-question').innerText = question.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option');
+                optionDiv.innerHTML = `<img src="${question.images[index]}" alt="${option}"><span>${option}</span>`;
+                optionDiv.onclick = () => checkAnswer(option, question.answer);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('prevButton').style.display = currentIndex > 0 ? 'inline-block' : 'none';
+
+            // If it's the 5th question, change the Next button to redirect
+            if ((currentIndex + 1) % 5 === 0) {
+                document.getElementById('nextButton').innerText = "Next";
+            } else {
+                document.getElementById('nextButton').innerText = "Next";
+            }
+        }
+
+        // Check Answer
+        function checkAnswer(selected, correct) {
+            const feedback = document.getElementById('feedback');
+            if (selected === correct) {
+                feedback.innerText = "Correct!";
+                feedback.style.color = "green";
+            } else {
+                feedback.innerText = `Wrong! Correct answer: ${correct}`;
+                feedback.style.color = "red";
+            }
+        }
+
+        // Navigate Questions
+        function navigateQuestion(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            } else if (currentIndex >= questions.length) {
+                currentIndex = questions.length - 1;
+            }
+            displayQuestion();
+        }
+
+        // Next Question Function
+        function nextQuestion() {
+            if ((currentIndex + 1) % 5 === 0) {
+                window.location.href = "pronunciation.html";  // Redirect on every 5th question
+            } else {
+                currentIndex++;
+                displayQuestion();
+            }
+        }
+
+        // Speak Question Function
+        function speakQuestion() {
+            const questionText = document.getElementById('quiz-question').innerText;
+            const speech = new SpeechSynthesisUtterance(questionText);
+            window.speechSynthesis.speak(speech);
+        }
+
+        // Initialize Quiz
+        window.onload = displayQuestion;
+    </script>
+
+</body>
+</html>
