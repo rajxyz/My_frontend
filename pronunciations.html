@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pronunciation Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .input-box, .select-box, .button-box {
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus, button:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .pronunciation-btn {
+      font-size: 20px;
+      color: #fff;
+      background-color: #4caf50;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    .pronunciation-btn:hover {
+      background-color: #45a049;
+    }
+
+    .pronunciation-btn span {
+      margin-right: 10px;
+    }
+
+    .logo {
+      font-size: 30px;
+      color: #fff;
+    }
+
+    .box-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pronunciation Tool</h2>
+
+    <!-- Language Selector Box -->
+    <div class="select-box">
+      <label for="language-select" class="box-title">Select Pronunciation Language:</label>
+      <select id="language-select">
+        <option value="en-US">English (US)</option>
+        <option value="en-GB">English (UK)</option>
+        <option value="es-ES">Spanish</option>
+        <option value="fr-FR">French</option>
+        <option value="de-DE">German</option>
+        <option value="it-IT">Italian</option>
+        <option value="ja-JP">Japanese</option>
+        <option value="ko-KR">Korean</option>
+        <option value="zh-CN">Chinese (Mandarin)</option>
+        <!-- Add more languages as needed -->
+      </select>
+    </div>
+
+    <!-- Input Box for Word -->
+    <div class="input-box">
+      <label for="word-input" class="box-title">Enter Word or Phrase to Pronounce:</label>
+      <input type="text" id="word-input" placeholder="Enter word or phrase">
+    </div>
+
+    <!-- Pronunciation Button -->
+    <div class="button-box">
+      <button class="pronunciation-btn" onclick="pronounceWord()">
+        <span class="logo">🔊📢</span> Pronounce
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function pronounceWord() {
+      const word = document.getElementById("word-input").value;
+      const language = document.getElementById("language-select").value;
+
+      if (!word) {
+        alert("Please enter a word or phrase to pronounce!");
+        return;
+      }
+
+      // Create the speech utterance
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = language;
+
+      // Pronounce the word
+      window.speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>
