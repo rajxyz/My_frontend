@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batch Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .batch-description {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .batch-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const params = new URLSearchParams(window.location.search);
+      const batchName = params.get("batch");
+
+      const batchDetails = {
+        "NEET 11TH CLASS": {
+          description: "This batch covers Physics, Chemistry, and Biology for NEET preparation.",
+          image: "https://i.imgur.com/CRaTUbS.jpeg"
+        },
+        "NEET 12TH CLASS": {
+          description: "Advanced NEET batch focusing on revision and mock tests.",
+          image: "https://i.imgur.com/7h3AbWp.jpeg"
+        },
+        "CUET BATCH": {
+          description: "CUET batch with personalized mentoring and mock tests.",
+          image: "https://via.placeholder.com/600x400/58d68d/ffffff?text=CUET+Batch"
+        },
+        "NEET PG": {
+          description: "NEET PG batch for postgraduate medical entrance preparation.",
+          image: "https://via.placeholder.com/600x400/e74c3c/ffffff?text=NEET+PG+Batch"
+        }
+      };
+
+      if (batchDetails[batchName]) {
+        document.getElementById("batch-title").textContent = batchName;
+        document.getElementById("batch-description").textContent = batchDetails[batchName].description;
+        document.getElementById("batch-image").src = batchDetails[batchName].image;
+      } else {
+        document.getElementById("batch-title").textContent = "Batch Not Found";
+        document.getElementById("batch-description").textContent = "No details available.";
+      }
+    });
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1 id="batch-title">Batch Name</h1>
+    <img id="batch-image" class="batch-image" src="" alt="Batch Image">
+    <p id="batch-description" class="batch-description">Loading...</p>
+    <button class="back-btn" onclick="goBack()">Go Back</button>
+  </div>
+</body>
+</html>
