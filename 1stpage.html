@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batch Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+
+    /* Navbar at the top */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .navbar .menu-icon {
+      font-size: 30px;
+      cursor: pointer;
+    }
+    .navbar .breadcrumb {
+      font-size: 14px;
+      color: #555;
+    }
+    .navbar .profile-icon {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #007bff;
+    }
+    .navbar .profile-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Side Drawer */
+    .side-drawer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #343a40;
+      color: white;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      transform: translateX(-100%);
+    }
+    .side-drawer.active {
+      display: block;
+      transform: translateX(0);
+    }
+    .side-drawer a {
+      display: block;
+      padding: 15px;
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #444;
+    }
+    .side-drawer a:hover {
+      background-color: #007bff;
+    }
+    .side-drawer .close-btn {
+      font-size: 30px;
+      color: white;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    /* Carousel Section */
+    .swiper-container {
+      margin: 15px auto;
+      width: 100%;
+      max-width: 1200px;
+      border-radius: 10px;
+      overflow: hidden;
+      background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .swiper-slide img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* Filters Section */
+    .filters {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      background: #fff;
+      border-top: 2px solid #007bff;
+    }
+    .filters button {
+      border: none;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: #555;
+    }
+    .filters button.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    /* Batch list */
+    .batch-list {
+      padding: 15px;
+    }
+    .batch-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin-bottom: 15px;
+      text-align: center;
+      border: 3px solid #007bff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .batch-card img.batch-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .batch-card .heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 15px;
+    }
+    .batch-card .button-container button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .batch-card .button-container button:hover {
+      background: linear-gradient(135deg, #0056b3, #003f7f);
+    }
+
+    /* Fixed Bottom Toolbar */
+    .bottom-toolbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+    .bottom-toolbar button {
+      border: none;
+      background: none;
+      font-size: 18px;
+      color: #007bff;
+      cursor: pointer;
+    }
+    .bottom-toolbar button:hover {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <span class="menu-icon" onclick="toggleDrawer()">☰</span>
+  <span class="breadcrumb">Flipify</span>
+  <div class="profile-icon">
+    <img src="https://via.placeholder.com/150" alt="Profile">
+  </div>
+</div>
+
+<!-- Side Drawer (Hamburger Menu) -->
+<div class="side-drawer" id="sideDrawer">
+  <span class="close-btn" onclick="toggleDrawer()">×</span>
+  <a href="edit-profile.html">Edit Profile</a> <!-- Link to Edit Profile Page -->
+  <a href="logout.html" onclick="handleLogout(event)">Logout</a> <!-- Logout Link with Functionality -->
+</div>
+
+<!-- Carousel -->
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="https://i.imgur.com/tt6wlH0.jpeg" alt="Banner 1">
+    </div>
+    <div class="swiper-slide">
+      <img src="https://i.imgur.com/77L3rtk.jpeg" alt="Banner 2">
+    </div>
+    <div class="swiper-slide">
+      <img src="https://i.imgur.com/zS4lKMI.png" alt="Banner 3">
+    </div>
+  </div>
+</div>
+
+<!-- Filters Section -->
+<div class="filters">
+  <button class="active" onclick="filterBatches('all')">All</button>
+  <button onclick="filterBatches('batch1')">Ongoing</button>
+  <button onclick="filterBatches('batch2')">Incoming</button>
+  <button onclick="filterBatches('batch3')">Completed</button>
+</div>
+
+<!-- Batch List Section -->
+<div class="batch-list">
+
+  <!-- Hindi to English Batch -->
+  <div class="batch-card" data-category="batch1">
+    <img src="https://i.imgur.com/AVtu2Pv.png" alt="Batch 1 Image" class="batch-image">
+    <div class="heading">Hindi to English</div>
+    <div class="button-container">
+        <button onclick="redirectToSecondPage()">Join Now</button>
+    </div>
+  </div>
+
+  <!-- Urdu to English Batch -->
+  <div class="batch-card" data-category="batch2">
+    <img src="https://i.imgur.com/yrP8Raz.png" alt="Batch 2 Image" class="batch-image">
+    <div class="heading">Urdu to English</div>
+    <div class="button-container">
+        <button onclick="redirectToSecondPage()">Join Now</button>
+    </div>
+  </div>
+
+  <!-- Gujarati to English Batch -->
+  <div class="batch-card" data-category="batch3">
+    <img src="https://i.imgur.com/PZMA5qm.png" alt="Batch 3 Image" class="batch-image">
+    <div class="heading">Gujarati to English</div>
+    <div class="button-container">
+        <button onclick="redirectToSecondPage()">Join Now</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Toolbar -->
+<div class="bottom-toolbar">
+  <button onclick="window.location.href='translator.html'">Translator</button>
+  <button onclick="window.location.href='pronunciations.html'">Pronunciation</button>
+  <button onclick="window.location.href='spelling-check.html'">Spelling Check</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.swiper-container', {
+    loop: true,
+    autoplay: { delay: 2500, disableOnInteraction: false },
+  });
+
+  function toggleDrawer() {
+    document.getElementById('sideDrawer').classList.toggle('active');
+  }
+
+  function filterBatches(category) {
+    const allBatches = document.querySelectorAll('.batch-card');
+    allBatches.forEach(batch => {
+      if (category === 'all' || batch.getAttribute('data-category') === category) {
+        batch.style.display = 'block';
+      } else {
+        batch.style.display = 'none';
+      }
+    });
+
+    const buttons = document.querySelectorAll('.filters button');
+    buttons.forEach(button => button.classList.remove('active'));
+    document.querySelector(`.filters button[onclick*="${category}"]`).classList.add('active');
+  }
+
+  function handleLogout(event) {
+    event.preventDefault(); // Prevents default anchor behavior
+    // Simulating logout (you can replace this with actual logout logic)
+    alert("You have been logged out.");
+    window.location.href = "signup-page.html"; // Redirects to signup-page
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const editedImage = localStorage.getItem("editedImage"); // Assuming you store it in localStorage
+    if (editedImage) {
+      document.querySelector('.profile-icon img').src = editedImage + "?t=" + new Date().getTime(); // Ensure the image reloads
+    }
+  });
+
+  function redirectToSecondPage() {
+    window.location.href = "second-page.html"; // Replace with the actual second page URL
+  }
+</script>
+</body>
+</html>
