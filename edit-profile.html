@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+</head>
+<body>
+  <h2>Edit Profile</h2>
+
+  <label for="profilePicInput">Choose Profile Picture:</label>
+  <input type="file" id="profilePicInput" accept="image/*">
+
+  <h3>Preview:</h3>
+  <img id="profilePicPreview" src="" alt="Profile Preview" width="150" height="150" style="border-radius: 50%; display: none;">
+
+  <br><br>
+  <button onclick="saveProfilePic()">Save Profile Picture</button>
+
+  <script>
+    // Load the saved profile picture on page load
+    window.onload = function() {
+      const savedPic = localStorage.getItem("profilePic");
+      if (savedPic) {
+        document.getElementById("profilePicPreview").src = savedPic;
+        document.getElementById("profilePicPreview").style.display = "block";
+      }
+    };
+
+    // Handle profile picture selection
+    document.getElementById("profilePicInput").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("profilePicPreview").src = e.target.result;
+          document.getElementById("profilePicPreview").style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Save the profile picture to Local Storage
+    function saveProfilePic() {
+      const profilePic = document.getElementById("profilePicPreview").src;
+      if (profilePic) {
+        localStorage.setItem("profilePic", profilePic);
+        alert("Profile picture updated successfully!");
+        window.location.href = "index.html"; // Redirect to the main page
+      } else {
+        alert("Please select an image first.");
+      }
+    }
+  </script>
+
+  <br>
+  <a href="index.html">Go Back</a>
+</body>
+</html>
