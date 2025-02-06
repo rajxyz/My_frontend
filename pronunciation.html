@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pronunciation Test</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #e6f7ff, #ffffff); /* Light blue and white gradient */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .question {
+            font-size: 26px; /* Increased font size */
+            color: #4a90e2;
+            font-weight: bold;
+            margin-bottom: 30px;
+            width: 80%; /* Fix width for proper alignment */
+            text-align: center;
+        }
+
+        .box-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            grid-template-rows: auto auto; /* Two rows */
+            gap: 20px; /* More space between the boxes */
+            width: 70%; /* Fixed width for consistent layout */
+            justify-items: center;
+            margin-top: 30px;
+            align-items: center; /* Align the grid items to the center */
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            width: 140px; /* Increased width */
+            height: 140px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #d1e4f1;
+        }
+
+        .box img {
+            width: 90px; /* Increased image size */
+            height: 90px;
+            border-radius: 12px;
+        }
+
+        .box.correct {
+            background: #4caf50;
+            color: white;
+        }
+
+        .box.incorrect {
+            background: #f44336;
+            color: white;
+        }
+
+        .box:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+            box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .record-button {
+            background: #5fa8d3;
+            color: white;
+            padding: 12px 18px; /* Increased padding for button */
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-size: 14px;  /* Slightly larger font */
+            border: none;
+            transition: 0.3s;
+        }
+
+        .record-button:hover {
+            background: #83c5de;
+        }
+
+        /* Grid Adjustments */
+        .box1 {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .box2 {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .box3 {
+            grid-column: 1 / span 2; /* Centered in the second row */
+            grid-row: 2;
+        }
+
+        .box4 {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .box5 {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="question">What is the meaning of these words?</div>
+
+    <div class="box-container">
+        <!-- Placeholder for 5 boxes with images -->
+        <div class="box box1" id="box1">
+            <img src="apple.png" alt="Apple">
+            <div>Apple</div>
+            <button class="record-button" onclick="startRecording(1)">Record Pronunciation</button>
+        </div>
+
+        <div class="box box2" id="box2">
+            <img src="orange.png" alt="Orange">
+            <div>Orange</div>
+            <button class="record-button" onclick="startRecording(2)">Record Pronunciation</button>
+        </div>
+
+        <div class="box box3" id="box3">
+            <img src="grapes.png" alt="Grapes">
+            <div>Grapes</div>
+            <button class="record-button" onclick="startRecording(3)">Record Pronunciation</button>
+        </div>
+
+        <div class="box box4" id="box4">
+            <img src="banana.png" alt="Banana">
+            <div>Banana</div>
+            <button class="record-button" onclick="startRecording(4)">Record Pronunciation</button>
+        </div>
+
+        <div class="box box5" id="box5">
+            <img src="pear.png" alt="Pear">
+            <div>Pear</div>
+            <button class="record-button" onclick="startRecording(5)">Record Pronunciation</button>
+        </div>
+    </div>
+
+    <script>
+        // Store the correct pronunciation words
+        const correctPronunciations = ['apple', 'orange', 'grapes', 'banana', 'pear'];
+
+        // Function to simulate voice recording and check pronunciation
+        function startRecording(boxId) {
+            const box = document.getElementById(`box${boxId}`);
+            const userPronunciation = prompt(`Please say the word for box ${boxId}:`).toLowerCase().trim();
+
+            if (correctPronunciations[boxId - 1] === userPronunciation) {
+                box.classList.add('correct');
+                box.classList.remove('incorrect');
+            } else {
+                box.classList.add('incorrect');
+                box.classList.remove('correct');
+            }
+        }
+    </script>
+</body>
+</html>
