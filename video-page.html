@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Video Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://www.youtube.com/iframe_api"></script> <!-- Load YouTube API -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+        }
+
+        .feature-box {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: white;
+            padding: 10px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            text-align: center;
+            font-size: 12px;
+            color: #444;
+            cursor: pointer;
+        }
+
+        .feature-item i {
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #2563eb;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .dropdown div {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown div:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<main class="video-container">
+    <div class="video-box">
+        <!-- YouTube Video Player (API controlled) -->
+        <div id="player"></div>
+    </div>
+
+    <!-- Feature Box -->
+    <div class="feature-box">
+        <div class="feature-item" onclick="viewPDF()">
+            <i class="fas fa-file-pdf"></i>
+            <span>View PDF</span>
+        </div>
+        <div class="feature-item" onclick="toggleDropdown('qualityDropdown')">
+            <i class="fas fa-cog"></i>
+            <span>Quality</span>
+            <div id="qualityDropdown" class="dropdown">
+                <div onclick="changeQuality('tiny')">144p</div>
+                <div onclick="changeQuality('small')">240p</div>
+                <div onclick="changeQuality('medium')">360p</div>
+                <div onclick="changeQuality('large')">480p</div>
+                <div onclick="changeQuality('hd720')">720p</div>
+                <div onclick="changeQuality('hd1080')">1080p</div>
+            </div>
+        </div>
+        <div class="feature-item" onclick="toggleDropdown('speedDropdown')">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Speed</span>
+            <div id="speedDropdown" class="dropdown">
+                <div onclick="changeSpeed(0.5)">0.5x</div>
+                <div onclick="changeSpeed(1)">Normal</div>
+                <div onclick="changeSpeed(1.5)">1.5x</div>
+                <div onclick="changeSpeed(2)">2x</div>
+            </div>
+        </div>
+        <div class="feature-item" onclick="reportVideo()">
+            <i class="fas fa-flag"></i>
+            <span>Report</span>
+        </div>
+        <div class="feature-item" onclick="toggleSubtitles()">
+            <i class="fas fa-closed-captioning"></i>
+            <span>Subtitles</span>
+        </div>
+        <div class="feature-item" onclick="rateVideo()">
+            <i class="fas fa-star"></i>
+            <span>Rate</span>
+        </div>
+    </div>
+</main>
+
+<script>
+    let player;
+
+    function getQueryParam(name) {
+        let params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+
+    function onYouTubeIframeAPIReady() {
+        let videoId = getQueryParam("videoId") || "dQw4w9WgXcQ"; // Default video if not found
+        player = new YT.Player("player", {
+            height: "450",
+            width: "100%",
+            videoId: videoId,
+            playerVars: {
+                autoplay: 1,
+                controls: 1,
+                modestbranding: 1,
+                rel: 0
+            }
+        });
+    }
+
+    function changeSpeed(speed) {
+        if (player && player.setPlaybackRate) {
+            player.setPlaybackRate(speed);
+        }
+    }
+
+    function changeQuality(level) {
+        if (player && player.setPlaybackQuality) {
+            player.setPlaybackQuality(level);
+        }
+    }
+
+    function toggleDropdown(id) {
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            if (dropdown.id !== id) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        const dropdown = document.getElementById(id);
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubtitles() {
+        alert("Enable subtitles from YouTube player settings.");
+    }
+
+    function viewPDF() {
+        window.open("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "_blank");
+    }
+
+    function reportVideo() {
+        alert("This video has been reported.");
+    }
+
+    function rateVideo() {
+        const rating = prompt("Rate this video (1-5 stars):");
+        if (rating >= 1 && rating <= 5) {
+            alert("Thank you for rating!");
+        } else {
+            alert("Invalid rating. Please enter a number between 1 and 5.");
+        }
+    }
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.closest(".feature-item")) {
+            document.querySelectorAll(".dropdown").forEach(dropdown => dropdown.style.display = "none");
+        }
+    });
+</script>
+
+</body>
+</html>
