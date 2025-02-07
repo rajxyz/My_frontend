@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertical Batch Scrolling with Images</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #d6eaf8, #aed6f1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 600px;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: #5dade2;
+      box-shadow: 0 2px 10px rgba(93, 173, 226, 0.3);
+    }
+
+    .vertical-carousel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #ccc transparent;
+    }
+
+    .vertical-carousel::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .vertical-carousel::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    .vertical-carousel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .carousel-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .batch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .batch img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .batch:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .batch h3 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .batch p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .batch button {
+      padding: 10px 20px;
+      border: none;
+      background: #5dade2;
+      color: #fff;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .batch button:hover {
+      background: #3498db;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select your field</h1>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for batches..." onkeyup="searchBatches()" />
+    </div>
+
+    <div class="vertical-carousel">
+      <div class="carousel-section">
+        <div class="batch">
+          <img src="https://i.imgur.com/4Ttl1Um.jpeg" alt="Batch 1">
+          <h3>Batch 1 - Medical Field</h3>
+          <p>convert your medium in one month </p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/17L7hIZ.jpeg" alt="Batch 2">
+          <h3>Batch 2 - Mathematical Field</h3>
+          <p>convert your medium in one month .</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/Rbvl3s6.jpeg" alt="Batch 3">
+          <h3>Batch 3 - Arts</h3>
+          <p>Focus on Physics, Chemistry, and Math.</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/DQVwHNH.jpeg" alt="Batch 4">
+          <h3>Batch 4 - Agriculture</h3>
+          <p>convert your medium in one month .</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/sJ17ZSb.jpeg" alt="Batch 5">
+          <h3>Batch 5 - Commerce</h3>
+          <p>convert your medium in one month </p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+      </div>
+
+      <div class="carousel-section">
+        <div class="batch">
+          <img src="https://i.imgur.com/diO43lW.jpeg" alt="Batch 6">
+          <h3>Batch 6 - Class 8</h3>
+          <p>convert your medium in one month .</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/FQ7PThN.jpeg" alt="Batch 7">
+          <h3>Batch 7 - Class 7</h3>
+          <p>Interactive learning experience for Class 7.</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+        <div class="batch">
+          <img src="https://i.imgur.com/Q7DwJpB.jpeg" alt="Batch 8">
+          <h3>Batch 8 - Class 6</h3>
+          <p>Engaging lessons for Class 8 students.</p>
+          <button onclick="redirectToPage()">Join Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function redirectToPage() {
+      alert("Redirecting to page..."); // Debugging step
+      window.location.href = "third-page.html"; // Update with your actual target page
+    }
+
+    function searchBatches() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let batches = document.querySelectorAll('.batch');
+
+      batches.forEach(batch => {
+        let title = batch.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(input)) {
+          batch.style.display = "flex"; // Show matching batch
+        } else {
+          batch.style.display = "none"; // Hide non-matching batch
+        }
+      });
+    }
+  </script>
+</body>
+</html>
