@@ -1,7 +1,7 @@
 {
   "name": "Flipify",
   "short_name": "LangApp",
-  "start_url": "/",
+  "start_url": "https://my-frontend-git-main-rajs-projects-1344e61f.vercel.app",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6200EA",
