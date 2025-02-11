@@ -223,5 +223,14 @@
             <button type="submit" class="signup-btn">Sign Up</button>
         </form>
     </div>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => console.log('✅ Service Worker Registered!', registration))
+        .catch((err) => console.log('❌ Service Worker Registration Failed:', err));
+    });
+  }
+    </script>
 </body>
 </html>
