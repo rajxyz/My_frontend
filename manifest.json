@@ -1,16 +1,21 @@
 {
   "name": "Flipify",
   "short_name": "LangApp",
-  "description": "Flipify is a powerful language learning and conversion app designed to help students seamlessly transition between different mediums of instruction. Whether you're switching from one language to another or need tools to enhance your understanding, Flipify offers interactive courses, translation tools, and smart learning features to make the process smooth and effective.",
+  "description": "Flipify helps students switch mediums seamlessly with courses and tools.",
   "start_url": "/",
   "dir": "rtl",
   "lang": "en",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "fullscreen", "standalone", "minimal-ui"],
+  "orientation": "landscape",
   "background_color": "#FFFFFF",
   "theme_color": "#6200EA",
-  "iarc_rating_id": "",
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "iarc_rating_id": "pending",
+  "prefer_related_applications": false,
   "categories": ["education", "productivity", "utilities"],
   "icons": [
     {
@@ -21,6 +26,18 @@
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screen1.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "/screenshots/screen2.png",
+      "sizes": "1280x720",
       "type": "image/png"
     }
   ],
