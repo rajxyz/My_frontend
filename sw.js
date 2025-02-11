@@ -1,21 +1,26 @@
-const CACHE_NAME = 'flipify-cache-v1'; // Change this when updating files
+const CACHE_NAME = 'flipify-cache-v2'; // Update cache version when files change
 const CACHE_ASSETS = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  '/offline.html' // Ensure you create this page
 ];
 
-// ✅ Install Event - Caches the App Shell
+// ✅ Install Event - Cache Important Files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(CACHE_ASSETS);
+      return Promise.all(
+        CACHE_ASSETS.map((asset) => 
+          cache.add(asset).catch((err) => console.warn(`Failed to cache ${asset}:`, err))
+        )
+      );
     })
   );
-  self.skipWaiting(); // Activate worker immediately
+  self.skipWaiting();
 });
 
 // ✅ Activate Event - Cleanup Old Caches
@@ -32,7 +37,7 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim(); // Take control of open pages
+  self.clients.claim();
 });
 
 // ✅ Fetch Event - Serve Cached Files & Fallback to Network
@@ -40,11 +45,13 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request).then((fetchRes) => {
+        if (!fetchRes || !fetchRes.ok) return fetchRes; // Don't cache failed requests
+
         return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, fetchRes.clone()); // Cache new requests
+          cache.put(event.request, fetchRes.clone());
           return fetchRes;
         });
       });
-    }).catch(() => caches.match('/index.html')) // Offline Fallback
+    }).catch(() => caches.match('/offline.html')) // Show offline page if network fails
   );
 });
