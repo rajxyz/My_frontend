@@ -9,7 +9,7 @@
   "scope": "/",
   "display": "fullscreen",
   "display_override": ["fullscreen", "standalone"],
-  "orientation": "landscape",
+  "orientation": "any",
   "theme_color": "#A7C7E7", 
   "background_color": "#E3F2FD",
   "launch_handler": {
