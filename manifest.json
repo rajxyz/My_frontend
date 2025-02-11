@@ -10,8 +10,8 @@
   "display": "standalone",
   "display_override": ["window-controls-overlay", "fullscreen", "standalone", "minimal-ui"],
   "orientation": "landscape",
-  "background_color": "#FFFFFF",
-  "theme_color": "#6200EA",
+  "theme_color": "#A7C7E7", 
+  "background_color": "#E3F2FD",
   "launch_handler": {
     "client_mode": "auto"
   },
