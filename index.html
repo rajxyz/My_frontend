@@ -188,6 +188,43 @@
     });
   }
 </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('✅ Service Worker Registered!', registration);
+
+          // ✅ Background Sync - Register Sync Event
+          if ('sync' in registration) {
+            registration.sync.register('sync-translation')
+              .then(() => console.log('✅ Background Sync Registered'))
+              .catch((err) => console.log('❌ Background Sync Failed:', err));
+          }
+
+          // ✅ Periodic Sync - Auto-Fetch New Translations
+          if ('periodicSync' in registration) {
+            registration.periodicSync.register('update-translations', {
+              minInterval: 24 * 60 * 60 * 1000 // Every 24 hours
+            }).then(() => console.log('✅ Periodic Sync Registered'))
+              .catch((err) => console.log('❌ Periodic Sync Failed:', err));
+          }
+        })
+        .catch((err) => console.log('❌ Service Worker Registration Failed:', err));
+    });
+  }
+
+  // ✅ Request Push Notification Permission
+  if ('Notification' in window) {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.showNotification('Welcome to Flipify!');
+        });
+      }
+    });
+  }
+    </script>
 </head>
 <body>
     <div class="signup-container">
