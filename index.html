@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipify - Sign Up</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init("9wMXceQxVythTJclm"); // Replace with your EmailJS User ID
+
+        function sendOTP() {
+            let email = document.getElementById("email").value;
+            if (!email) {
+                alert("Enter an email address");
+                return;
+            }
+
+            let otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+            localStorage.setItem("email_otp", otp); // Store OTP temporarily
+
+            let templateParams = {
+                to_email: email,
+                otp: otp
+            };
+
+            emailjs.send("service_yvgx3br", "template_2em5e1i", templateParams)
+                .then(function(response) {
+                    alert("OTP Sent! Check your email.");
+                }, function(error) {
+                    alert("Error sending OTP. Try again.");
+                });
+        }
+    </script>
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.4), rgba(224, 255, 255, 0.2));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 9999;
+        }
+
+        /* Install Button */
+        #installBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            background: #6200EA;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Signup Container */
+        .signup-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .signup-container h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .signup-container p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #6cbeff;
+        }
+
+        .signup-btn {
+            background: rgba(108, 190, 251, 0.9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .signup-btn:hover {
+            background: rgba(92, 169, 230, 0.9);
+        }
+    </style>
+
+    <link rel="manifest" href="/manifest.json">
+
+    <script>
+        // ✅ Splash Screen - Hide After Load
+        window.addEventListener('load', () => {
+            document.getElementById('splash-screen').style.display = 'none';
+        });
+
+        // ✅ Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('✅ Service Worker Registered!', reg))
+                    .catch(err => console.error('❌ Service Worker Registration Failed:', err));
+            });
+        }
+
+        // ✅ Install PWA Button
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+
+            const installBtn = document.getElementById('installBtn');
+            installBtn.style.display = 'block';
+
+            installBtn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        console.log('✅ Flipify Installed');
+                        installBtn.style.display = 'none';
+                    } else {
+                        console.log('❌ Installation dismissed');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installBtn').style.display = 'none';
+            console.log('✅ Flipify is Installed!');
+        });
+    </script>
+</head>
+<body>
+    <div id="splash-screen">Loading Flipify...</div>
+
+    <button id="installBtn">Install Flipify</button>
+
+    <div class="signup-container">
+        <h1>Welcome to Flipify!</h1>
+        <p>Create your account to get started.</p>
+
+        <form id="signup-form" onsubmit="verifyOTP(event)">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <button type="button" class="otp-btn" onclick="sendOTP()">Send OTP</button>
+            </div>
+
+            <div class="form-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>
