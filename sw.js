@@ -1,57 +1,47 @@
-const CACHE_NAME = 'flipify-cache-v2'; // Update cache version when files change
-const CACHE_ASSETS = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/offline.html' // Ensure you create this page
-];
 
-// ✅ Install Event - Cache Important Files
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return Promise.all(
-        CACHE_ASSETS.map((asset) => 
-          cache.add(asset).catch((err) => console.warn(`Failed to cache ${asset}:`, err))
-        )
-      );
-    })
-  );
-  self.skipWaiting();
+// Load Workbox from the official CDN
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+
+const CACHE = "flipify-cache-v1"; 
+const offlineFallbackPage = "/offline.html"; // Make sure this file exists
+
+// Skip waiting when a new service worker is installed
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
-// ✅ Activate Event - Cleanup Old Caches
-self.addEventListener('activate', (event) => {
+// Install event - Cache the offline page
+self.addEventListener('install', async (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('Deleting old cache:', cache);
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
   );
-  self.clients.claim();
 });
 
-// ✅ Fetch Event - Serve Cached Files & Fallback to Network
+// Enable navigation preload if supported
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
+
+// Fetch event - Serve cached pages and handle offline mode
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).then((fetchRes) => {
-        if (!fetchRes || !fetchRes.ok) return fetchRes; // Don't cache failed requests
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        // Try to get the latest version from the network
+        const preloadResp = await event.preloadResponse;
+        if (preloadResp) return preloadResp;
 
-        return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, fetchRes.clone());
-          return fetchRes;
-        });
-      });
-    }).catch(() => caches.match('/offline.html')) // Show offline page if network fails
-  );
+        const networkResp = await fetch(event.request);
+        return networkResp;
+      } catch (error) {
+        // If offline, return cached offline page
+        const cache = await caches.open(CACHE);
+        const cachedResp = await cache.match(offlineFallbackPage);
+        return cachedResp;
+      }
+    })());
+  }
 });
