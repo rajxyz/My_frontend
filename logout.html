@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flipify - Log In</title>
+    <link rel="manifest" href="/manifest.json">
     <style>
         /* Reset Styles */
         * {
@@ -111,7 +111,7 @@
             <button type="submit" class="login-btn">Log In</button>
         </form>
         <div class="footer">
-            Don't have an account? <a href="signup-page.html">Sign Up</a>
+            Don't have an account? <a href="index.html">Sign Up</a>
         </div>
     </div>
     <script>
@@ -153,6 +153,14 @@
             }
         });
     });
-</script>    
+</script> 
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log("Service Worker Registered", reg))
+            .catch(err => console.log("Service Worker Registration Failed", err));
+    }
+    </script>
+    console.log("Stored user:", localStorage.getItem("user"));
 </body>
 </html>
