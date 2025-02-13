@@ -31,21 +31,7 @@
                 });
         }
 
-        function verifyOTP(event) {
-    event.preventDefault(); // Prevent form submission
-
-    let enteredOtp = document.getElementById("otp").value;
-    let storedOtp = localStorage.getItem("email_otp");
-
-    if (enteredOtp === storedOtp) {
-        alert("OTP Verified! Signup Successful.");
-        localStorage.removeItem("email_otp"); // Clear OTP after verification
         
-        // Redirect to 1stpage.html after successful signup
-        window.location.href ="1stpage.html"; 
-    } else {
-        alert("Invalid OTP. Try again.");
-    }
 }
     </script>
     <style>
