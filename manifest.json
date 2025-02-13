@@ -7,7 +7,7 @@
   "dir": "rtl",
   "lang": "en",
   "scope": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "display_override": ["fullscreen", "standalone", "minimal-ui"], 
   "orientation": "any",
   "theme_color": "#A7C7E7", 
