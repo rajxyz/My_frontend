@@ -91,50 +91,6 @@
             <i class="fas fa-file-pdf"></i>
             <span>View PDF</span>
         </div>
-        <div class="feature-box">
-    <div class="feature-item" onclick="viewPDF('video1')">
-        <i class="fas fa-file-pdf"></i>
-        <span>View PDF for Video 1</span>
-    </div>
-    <div class="feature-item" onclick="viewPDF('video2')">
-        <i class="fas fa-file-pdf"></i>
-        <span>View PDF for Video 2</span>
-    </div>
-    <div class="feature-item" onclick="viewPDF('video3')">
-        <i class="fas fa-file-pdf"></i>
-        <span>View PDF for Video 3</span>
-    </div>
-</div>
-
-<div id="pdfViewer" style="display: none;">
-    <iframe id="pdfIframe" width="600" height="400"></iframe>
-</div>
-
-<script>
-    // Mapping of video classes to their corresponding PDF files
-    var pdfFiles = {
-        'video1': 'path/to/video1.pdf',
-        'video2': 'path/to/video2.pdf',
-        'video3': 'path/to/video3.pdf',
-        // Add more videos and their PDFs here
-    };
-
-    function viewPDF(videoId) {
-        // Get the PDF file associated with the clicked video
-        var pdfPath = pdfFiles[videoId];
-
-        if (pdfPath) {
-            // Set the iframe source to the selected PDF
-            var iframe = document.getElementById('pdfIframe');
-            iframe.src = pdfPath;
-
-            // Display the iframe with the PDF
-            document.getElementById('pdfViewer').style.display = 'block';
-        } else {
-            alert('PDF not found for this video class.');
-        }
-    }
-</script>
         <div class="feature-item" onclick="toggleDropdown('qualityDropdown')">
             <i class="fas fa-cog"></i>
             <span>Quality</span>
