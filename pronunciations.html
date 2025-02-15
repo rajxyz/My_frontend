@@ -132,24 +132,34 @@
       </button>
     </div>
   </div>
+<script>
+  async function pronounceWord() {
+    const word = document.getElementById("word-input").value;
+    const language = document.getElementById("language-select").value;
 
-  <script>
-    function pronounceWord() {
-      const word = document.getElementById("word-input").value;
-      const language = document.getElementById("language-select").value;
-
-      if (!word) {
+    if (!word) {
         alert("Please enter a word or phrase to pronounce!");
         return;
-      }
-
-      // Create the speech utterance
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = language;
-
-      // Pronounce the word
-      window.speechSynthesis.speak(utterance);
     }
-  </script>
+
+    // Send request to your backend
+    const response = await fetch("https://your-backend-url.onrender.com/pronounce", {
+        method: "POST",
+        body: JSON.stringify({ text: word, language: language }),
+        headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await response.json();
+    
+    if (data.audioContent) {
+        const audio = new Audio("data:audio/mp3;base64," + data.audioContent);
+        audio.play();
+    } else {
+        alert("Pronunciation failed. Please try again.");
+    }
+}
+  
+</script>
+
 </body>
 </html>
