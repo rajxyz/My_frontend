@@ -122,56 +122,30 @@
 
     <button onclick="translateText()">Translate</button>
   </div>
+<script>
+  async function translateText() {
+    const inputText = document.getElementById("input-text").value;
+    const targetLanguage = document.getElementById("language-select").value;
 
-  <script>
-    async function detectLanguage(text) {
-      const response = await fetch('https://libretranslate.com/detect', {
-        method: 'POST',
-        body: JSON.stringify({ q: text }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      const data = await response.json();
-      if (data.length > 0) {
-        return data[0].language; // Return detected language
-      }
-      return null;
-    }
-
-    async function translateText() {
-      const inputText = document.getElementById("input-text").value;
-      const targetLanguage = document.getElementById("language-select").value;
-
-      if (!inputText) {
+    if (!inputText) {
         alert("Please enter some text to translate!");
         return;
-      }
-
-      // Detect language
-      const detectedLanguage = await detectLanguage(inputText);
-      const detectedLanguageDropdown = document.getElementById("detected-language");
-
-      detectedLanguageDropdown.innerHTML = `<option>${detectedLanguage}</option>`;
-      detectedLanguageDropdown.value = detectedLanguage;
-
-      // Translate text
-      const response = await fetch('https://libretranslate.com/translate', {
-        method: 'POST',
-        body: JSON.stringify({
-          q: inputText,
-          source: detectedLanguage,
-          target: targetLanguage
-        }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      const data = await response.json();
-      if (data.translatedText) {
-        document.getElementById("translated-text").value = data.translatedText;
-      } else {
-        alert("Translation failed. Please try again.");
-      }
     }
-  </script>
+
+    // Call your backend API
+    const response = await fetch("https://your-backend-url.onrender.com/translate", {
+        method: "POST",
+        body: JSON.stringify({ text: inputText, target: targetLanguage }),
+        headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await response.json();
+    if (data.translatedText) {
+        document.getElementById("translated-text").value = data.translatedText;
+    } else {
+        alert("Translation failed. Please try again.");
+    }
+  }
+</script>
 </body>
 </html
