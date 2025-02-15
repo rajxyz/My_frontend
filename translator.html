@@ -154,13 +154,13 @@
 
     // Step 2: Translate Text
     try {
-      const response = await fetch("https://translator-xddw.onrender.com/translate", {
-        method: "POST",
-        body: JSON.stringify({ text: inputText, source: detectedLanguage, target: targetLanguage }),
-        headers: { "Content-Type": "application/json" }
-      });
-
-      const data = await response.json();
+     const response = await fetch("https://translator-xddw.onrender.com/translate", {
+    method: "POST",
+    body: JSON.stringify({ text: inputText, source: "auto", target: targetLanguage }), // ✅ Include 'source'
+    headers: { "Content-Type": "application/json" }
+}); 
+    }   
+    const data = await response.json();
       if (data.translatedText) {
         document.getElementById("translated-text").value = data.translatedText;
       } else {
