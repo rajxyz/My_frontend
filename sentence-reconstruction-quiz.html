@@ -112,18 +112,71 @@
     <script>
         // Questions Data with Images
         const questions = [
-            { question: "What is the capital of France?", options: ["Paris", "Berlin", "Rome", "Madrid"], answer: "Paris", images: ["paris.png", "berlin.png", "rome.png", "madrid.png"] },
-            { question: "Which animal is known as the king of the jungle?", options: ["Lion", "Elephant", "Tiger", "Bear"], answer: "Lion", images: ["lion.png", "elephant.png", "tiger.png", "bear.png"] },
-            { question: "Which fruit is known as the 'king of fruits'?", options: ["Mango", "Apple", "Banana", "Grapes"], answer: "Mango", images: ["mango.png", "apple.png", "banana.png", "grapes.png"] },
-            { question: "Which color is the sky on a clear day?", options: ["Blue", "Green", "Red", "Yellow"], answer: "Blue", images: ["blue.png", "green.png", "red.png", "yellow.png"] },
-            { question: "What is the tallest mountain in the world?", options: ["Everest", "K2", "Kilimanjaro", "Denali"], answer: "Everest", images: ["everest.png", "k2.png", "kilimanjaro.png", "denali.png"] },
-            { question: "What is the fastest land animal?", options: ["Cheetah", "Horse", "Tiger", "Leopard"], answer: "Cheetah", images: ["cheetah.png", "horse.png", "tiger.png", "leopard.png"] }
-        ];
+    { 
+        question: "दिल को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Heart", "Liver", "Lung", "Kidney"], 
+        answer: "Heart", 
+        images: ["heart.png", "liver.png", "lung.png", "kidney.png"] 
+    },
+    { 
+        question: "फेफड़ों को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Lungs", "Liver", "Stomach", "Brain"], 
+        answer: "Lungs", 
+        images: ["lungs.png", "liver.png", "stomach.png", "brain.png"] 
+    },
+    { 
+        question: "हड्डियों को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Bones", "Muscles", "Veins", "Nerves"], 
+        answer: "Bones", 
+        images: ["bones.png", "muscles.png", "veins.png", "nerves.png"] 
+    },
+    { 
+        question: "त्वचा को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Skin", "Flesh", "Nail", "Scalp"], 
+        answer: "Skin", 
+        images: ["skin.png", "flesh.png", "nail.png", "scalp.png"] 
+    },
+    { 
+        question: "आंतों को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Intestines", "Stomach", "Liver", "Pancreas"], 
+        answer: "Intestines", 
+        images: ["intestines.png", "stomach.png", "liver.png", "pancreas.png"] 
+    },
+    { 
+        question: "नसों को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Nerves", "Arteries", "Veins", "Capillaries"], 
+        answer: "Nerves", 
+        images: ["nerves.png", "arteries.png", "veins.png", "capillaries.png"] 
+    },
+    { 
+        question: "मस्तिष्क को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Brain", "Spinal Cord", "Skull", "Cerebellum"], 
+        answer: "Brain", 
+        images: ["brain.png", "spinal_cord.png", "skull.png", "cerebellum.png"] 
+    },
+    { 
+        question: "यकृत को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Liver", "Kidney", "Gallbladder", "Spleen"], 
+        answer: "Liver", 
+        images: ["liver.png", "kidney.png", "gallbladder.png", "spleen.png"] 
+    },
+    { 
+        question: "गुर्दा को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Kidney", "Lungs", "Heart", "Liver"], 
+        answer: "Kidney", 
+        images: ["kidney.png", "lungs.png", "heart.png", "liver.png"] 
+    },
+    { 
+        question: "रक्त को अंग्रेजी में क्या कहते हैं?", 
+        options: ["Blood", "Plasma", "Platelets", "Serum"], 
+        answer: "Blood", 
+        images: ["blood.png", "plasma.png", "platelets.png", "serum.png"] 
+    }
+    ];
 
-        let currentIndex = 0;
-
-        // Display Quiz Question
-        function displayQuestion() {
+let currentIndex = 0
+          // Display Quiz Question
+          function displayQuestion() {
             const question = questions[currentIndex];
             document.getElementById('quiz-question').innerText = question.question;
 
