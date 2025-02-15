@@ -128,22 +128,46 @@
     const targetLanguage = document.getElementById("language-select").value;
 
     if (!inputText) {
-        alert("Please enter some text to translate!");
-        return;
+      alert("Please enter some text to translate!");
+      return;
     }
 
-    // Call your backend API
-    const response = await fetch("https://translator-xddw.onrender.com/translate", {
+    // Step 1: Detect Language
+    let detectedLanguage;
+    try {
+      const detectResponse = await fetch("https://translator-xddw.onrender.com/detect", {
         method: "POST",
-        body: JSON.stringify({ text: inputText, target: targetLanguage }),
+        body: JSON.stringify({ text: inputText }),
         headers: { "Content-Type": "application/json" }
-    });
+      });
 
-    const data = await response.json();
-    if (data.translatedText) {
+      const detectData = await detectResponse.json();
+      if (!detectData.language) {
+        alert("Could not detect language.");
+        return;
+      }
+      detectedLanguage = detectData.language;
+    } catch (error) {
+      alert("Error detecting language. Try again.");
+      return;
+    }
+
+    // Step 2: Translate Text
+    try {
+      const response = await fetch("https://translator-xddw.onrender.com/translate", {
+        method: "POST",
+        body: JSON.stringify({ text: inputText, source: detectedLanguage, target: targetLanguage }),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      const data = await response.json();
+      if (data.translatedText) {
         document.getElementById("translated-text").value = data.translatedText;
-    } else {
+      } else {
         alert("Translation failed. Please try again.");
+      }
+    } catch (error) {
+      alert("Error translating text. Try again.");
     }
   }
 </script>
